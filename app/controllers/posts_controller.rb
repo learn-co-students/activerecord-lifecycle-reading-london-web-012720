@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+	 
+
 	def index
 		@posts = Post.all
 	end
@@ -13,11 +15,14 @@ class PostsController < ApplicationController
 
 	def create
 	  @post = Post.new(params.require(:post).permit(:title, :description))
-    if @post.save
+		
+
+	  if @post.save
       redirect_to post_path(@post)
-    else
-      render :new
-    end
+		else
+		flash[:error] = @post.errors.full_messages
+      	render :new
+    	end
 	end
 
 	def update
