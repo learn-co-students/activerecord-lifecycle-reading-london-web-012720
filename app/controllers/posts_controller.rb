@@ -9,13 +9,14 @@ class PostsController < ApplicationController
 
 	def new
 		@post = Post.new
+		byebug
 	end
 
 	def create
 	  @post = Post.new(params.require(:post).permit(:title, :description))
     if @post.save
       redirect_to post_path(@post)
-    else
+	else
       render :new
     end
 	end
