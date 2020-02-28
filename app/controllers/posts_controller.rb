@@ -13,17 +13,29 @@ class PostsController < ApplicationController
 
 	def create
 	  @post = Post.new(params.require(:post).permit(:title, :description))
-    if @post.save
+	if @post.save
       redirect_to post_path(@post)
     else
       render :new
     end
 	end
 
+	def edit
+		@post = Post.find(params[:id])
+	  end
+
+
 	def update
 	  @post = Post.find(params[:id])
 	  @post.update(params.require(:post).permit(:title, :description, :post_status, :author_id))
+	  if @post.valid? 
+		@post.save
+		flash.now[:notice] = 'Successfully edit'
 	  redirect_to post_path(@post)
+	  else  
+		
+		render :edit
+	  end
 	end
 
 	def edit
